@@ -1,7 +1,6 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: osx-arm64
-aiohappyeyeballs=2.4.0=py312hca03da5_0
 aiohttp=3.10.5=py312h80987f9_0
 aiosignal=1.2.0=pyhd3eb1b0_0
 alpha_vantage=3.0.0=pyhd8ed1ab_0
