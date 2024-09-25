@@ -122,7 +122,7 @@ with col2:
 from stocknews import StockNews
 #een klein nieuws tabje in de sidebar
 st.sidebar.header('Nieuws')
-sn = StockNews('AAPL', save_news=False)
+sn = StockNews(ticker, save_news=False)
 df_news = sn.read_rss()
 st.sidebar.write(df_news)
 
