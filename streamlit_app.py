@@ -124,14 +124,20 @@ with col2:
 
 from stocknews import StockNews
 # Nieuws tab in sidebar
-st.sidebar.header(f'Nieuws van {ticker}')
-sn = StockNews(ticker, save_news=False)
-df_news = sn.read_rss()
-for i in range(3):
-    st.sidebar.subheader(f'Nieuws {i+1}')
-    st.sidebar.write(df_news['published'][i])
-    st.sidebar.write(df_news['title'][i])
-    st.sidebar.write(df_news['summary'][i])
+if ticker:
+    st.sidebar.header(f"News for {ticker}")
+
+    sn = StockNews(ticker, save_news=False)
+    df_news = sn.read_rss()
+
+    if not df_news.empty:
+        for i in range(3):
+            st.sidebar.subheader(f"Article {i+1}")
+            st.sidebar.write(df_news['published'][i])
+            st.sidebar.write(df_news['title'][i])
+            st.sidebar.write(df_news['summary'][i])
+    else:
+        st.sidebar.warning("No news found for the specified ticker.")
 
 
 
