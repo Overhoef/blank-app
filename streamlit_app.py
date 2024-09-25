@@ -22,20 +22,20 @@ stock_options = {
     "AVGO": "Broadcom Inc.",
     "GOOG": "Alphabet Inc. (Google) Class C",
     "LLY": "Eli Lilly & Co.",
+    "INTC": "Intel",
+    "TSLA": "Tesla, Inc.",
+    "V": "Visa Inc.",
+    "NFLX": "Netflix Inc.",
+    "KO": "Coca Cola Company",
+    "MA": "Mastercard Incorporated",
+    "JPM": "Jpmorgan Chase & Co.",
+    "JNJ": "Johnson & Johnson",
+    "SBUX": "Starbucks",
     "BTC-USD":"Bitcoin Dollar",
     "SOL-USD":"Solana Dollar",
     "ETH-USD":"Ethereum Dollar",
     "DOGE-USD":"Doge Coin",
     "VOO":"sp500",
-    # "INTC": "Intel",
-    # "TSLA": "Tesla, Inc.",
-    # "V": "Visa Inc.",
-    # "NFLX": "Netflix Inc.",
-    # "KO": "Coca Cola Company",
-    # "MA": "Mastercard Incorporated",
-    # "JPM": "Jpmorgan Chase & Co.",
-    # "JNJ": "Johnson & Johnson",
-    # "SBUX": "Starbucks",
 }
 
 # Get the list of stock names from the dictionary values
@@ -45,7 +45,7 @@ ini_time_for_now = datetime.now()
 default_ticker = "VOO"
 
 # Display a selection sidebar with stock names
-st.sidebar.header("STOCKS:")
+st.sidebar.header("Aandelen:")
 ticker = st.sidebar.selectbox("Ticker", stock_options)
 ticker2 = st.sidebar.text_input("Benchmark", value="VOO")
 start_date = st.sidebar.date_input("Begin datum", ini_time_for_now - timedelta(days=366))
@@ -57,7 +57,7 @@ col1, col2 = st.columns(2)
 with col1:
     # Streamlit app setup
     st.subheader(f"Chart of {ticker}")
-    # st.subheader(f'{ticker}')
+   
 
     #Hiermee maken we de Chart en de Pricing data. waarbij we de input van de boxes in de sidebar gebruiken.
     data = yf.download(ticker, start=start_date, end=end_date)
@@ -73,9 +73,9 @@ with col1:
 
     # Price change 24h
     if price_change > 0:
-        st.metric(label=f"Price Change in Last 24 Hours", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↑")
+        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↑")
     else:
-        st.metric(label=f"Price Change in Last 24 Hours", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↓")
+        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↓")
 
     # Create a candlestick trace
     trace = go.Candlestick(
@@ -105,9 +105,9 @@ with col2:
 
     # Price change 24h
     if price_change > 0:
-        st.metric(label=f"Price Change in Last 24 Hours", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↑")
+        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↑")
     else:
-        st.metric(label=f"Price Change in Last 24 Hours", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↓")
+        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↓")
 
     trace2 = go.Candlestick(
         x=data3.index,  # X-axis data (timestamps)
@@ -122,11 +122,19 @@ with col2:
 
     st.plotly_chart(fig2)
 
-# WIL EIGENLIJK HIER KORTE BESCHRIJVING VAN HET AANDEEL,
-# ZO MOOI ONDER DE GRAFIEK.
+from stocknews import StockNews
+# Nieuws tab in sidebar
+st.sidebar.header(f'Nieuws van {ticker}')
+sn = StockNews(ticker, save_news=False)
+df_news = sn.read_rss()
+for i in range(3):
+    st.sidebar.subheader(f'Nieuws {i+1}')
+    st.sidebar.write(df_news['published'][i])
+    st.sidebar.write(df_news['title'][i])
+    st.sidebar.write(df_news['summary'][i])
 
 
-# pricing_data, fundamental_data, news, tech_indicator = st.tabs(["Pricing Data","Fundamental Data", "Latest News", "Technical Analysis Dashboard"])
+
 pricing_data, fundamental_data, tech_indicator, signals = st.tabs(
     ["Prijs Data", "Fundamental Data", "Technische Analyses", "Signalen"]
 )
@@ -146,7 +154,6 @@ with pricing_data:
     st.write("Standard Deviation is ", stdev * 100, "%")
     st.write("Risk Adj return is ", annual_return / (stdev * 100))
 
-# EIGENLIJK IN DE SIDEBAR KLEIN LIJSTJE MET STIJGERS EN DALERS, DAS OOK LEUK
 
 # from alpha_vantage.fundamentaldata import FundamentalData
 with fundamental_data:
