@@ -44,8 +44,7 @@ ini_time_for_now = datetime.now()
 
 # Display a selection sidebar with stock names
 st.sidebar.header("Aandelen:")
-#ticker = st.sidebar.selectbox("Ticker", stock_options)
-ticker = st.sidebar.text_input("Benchmark", value="AAPL")
+ticker = st.sidebar.selectbox("Ticker", stock_options)
 ticker2 = st.sidebar.text_input("Benchmark", value="VOO")
 start_date = st.sidebar.date_input("Begin datum", ini_time_for_now - timedelta(days=366))
 end_date = st.sidebar.date_input("Eind datum")
@@ -118,14 +117,6 @@ with col2:
 
     fig2 = go.Figure(data=[trace2])  # Pass the list of traces
     st.plotly_chart(fig2)
-
-
-from stocknews import StockNews
-#een klein nieuws tabje in de sidebar
-st.sidebar.header('Nieuws')
-sn = StockNews(ticker, save_news=False)
-df_news = sn.read_rss()
-st.sidebar.write(df_news)
 
 pricing_data, fundamental_data, tech_indicator, signals = st.tabs(
     ["Prijs Data", "Fundamental Data", "Technische Analyses", "Signalen"]
@@ -302,7 +293,6 @@ with signals:
     # st.write('Signalen gebasseerd op SMA30 en SMA100')
     st.plotly_chart(fig3)
     
-
     st.write('Dat is een leuk begin, maar met enkele missers moeten we dat beter kunnen, dit is nog niet helemaal betrouwbaar. Misschien moeten we ook iets aan het risico management doen. Dat kan met MACD signialen, met stoploss op 2,5% voor risico management. De Moving Average Convergence of Divergence (oftewel MACD) is het verschil tussen 2 exponentiële Moving Averages.')
     #Strategy for signals
     macd = ta.macd(data['Close'])
@@ -343,7 +333,6 @@ with signals:
 
         data['MACD_Buy_Signal_price'] = MACD_Buy
         data['MACD_Sell_Signal_price'] = MACD_Sell
-
 
     MACD_strategy = MACD_Strategy(data, 0.025)
 
