@@ -167,7 +167,7 @@ with fundamental_data:
 with tech_indicator:
     st.subheader(f"Technicals {ticker}")
     df = pd.DataFrame()
-    desired_indicators = ["sma", "swma", "rsi", "bbands", "macd", "ema"]
+    desired_indicators = ["sma", "swma", "rsi", "bbands", "ema"]
 
     ind_list = df.ta.indicators(as_list=True)
     tech_indicator = st.selectbox("Technical Indicators", options=desired_indicators)
