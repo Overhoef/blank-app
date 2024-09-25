@@ -126,7 +126,7 @@ soupsieve==2.6
 stack-data==0.6.3
 stocknews==0.9.11
 streamlit==1.38.0
-TA-Lib==0.4.32
+#TA-Lib==0.4.32
 tenacity==8.5.0
 terminado==0.18.1
 tinycss2==1.3.0
