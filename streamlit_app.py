@@ -18,7 +18,6 @@ stock_options = {
     "AMZN": "Amazon.com Inc.",
     "META": "Meta Platforms, Inc. Class A",
     "GOOGL": "Alphabet Inc. (Google) Class A",
-    "BRK.B": "BERKSHIRE HATHAWAY Class B",
     "AVGO": "Broadcom Inc.",
     "GOOG": "Alphabet Inc. (Google) Class C",
     "LLY": "Eli Lilly & Co.",
@@ -119,10 +118,12 @@ with col2:
     fig2 = go.Figure(data=[trace2])  # Pass the list of traces
     st.plotly_chart(fig2)
 
+
+stock = ticker
 from stocknews import StockNews
 #een klein nieuws tabje in de sidebar
 st.sidebar.header('Nieuws')
-sn = StockNews(ticker, save_news=False)
+sn = StockNews(stock, save_news=False)
 df_news = sn.read_rss()
 st.sidebar.write(df_news)
 
