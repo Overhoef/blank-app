@@ -140,8 +140,7 @@ with pricing_data:
     st.write("Standard Deviation is ", stdev * 100, "%")
     st.write("Risk Adj return is ", annual_return / (stdev * 100))
 
-
-# from alpha_vantage.fundamentaldata import FundamentalData
+from alpha_vantage.fundamentaldata import FundamentalData
 with fundamental_data:
     st.header(f'Fundamentals of {ticker}')
     st.write('We zitten helaas met een max van 25 requests per dag dus om dit online te gebruiken is niet handig. Wij presenteren het wel werkend. Fundamentals van bedrijven gebruik je meestal niet standaard maar het geeft een beter inzicht in de performance van een bedrijf.')
