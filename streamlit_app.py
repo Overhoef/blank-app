@@ -45,7 +45,7 @@ ini_time_for_now = datetime.now()
 # Display a selection sidebar with stock names
 st.sidebar.header("Aandelen:")
 #ticker = st.sidebar.selectbox("Ticker", stock_options)
-ticker1 = st.sidebar.text_input("Benchmark", value="AAPL")
+ticker = st.sidebar.text_input("Benchmark", value="AAPL")
 ticker2 = st.sidebar.text_input("Benchmark", value="VOO")
 start_date = st.sidebar.date_input("Begin datum", ini_time_for_now - timedelta(days=366))
 end_date = st.sidebar.date_input("Eind datum")
