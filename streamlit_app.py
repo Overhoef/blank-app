@@ -122,25 +122,6 @@ with col2:
 
     st.plotly_chart(fig2)
 
-from stocknews import StockNews
-# Nieuws tab in sidebar
-if ticker:
-    st.sidebar.header(f"News for {ticker}")
-
-    sn = StockNews(ticker, save_news=False)
-    df_news = sn.read_rss()
-
-    if not df_news.empty:
-        for i in range(3):
-            st.sidebar.subheader(f"Article {i+1}")
-            st.sidebar.write(df_news['published'][i])
-            st.sidebar.write(df_news['title'][i])
-            st.sidebar.write(df_news['summary'][i])
-    else:
-        st.sidebar.warning("No news found for the specified ticker.")
-
-
-
 pricing_data, fundamental_data, tech_indicator, signals = st.tabs(
     ["Prijs Data", "Fundamental Data", "Technische Analyses", "Signalen"]
 )
@@ -391,12 +372,14 @@ with signals:
         x=data.index,
         y=data['MACD_Buy_Signal_price'],
         mode='markers',
+        label='koop',
         marker=dict(color='green', symbol='triangle-up', size=8),
     )
     signal_sell_trace = go.Scatter(
         x=data.index,
         y=data['MACD_Sell_Signal_price'],
         mode='markers',
+        label='verkoop',
         marker=dict(color='red', symbol='triangle-down', size=8),
     )
     fig.add_trace(price_trace, row=1, col=1)
