@@ -42,7 +42,6 @@ stock_options = {
 # stock_names = list(stock_options.values())
 
 ini_time_for_now = datetime.now()
-default_ticker = "VOO"
 
 # Display a selection sidebar with stock names
 st.sidebar.header("Aandelen:")
