@@ -123,7 +123,7 @@ from stocknews import StockNews
 #een klein nieuws tabje in de sidebar
 st.sidebar.header('Nieuws')
 sn = StockNews(ticker, save_news=False)
-df_news = sn.read_rss('AAPL')
+df_news = sn.read_rss("AAPL")
 st.sidebar.write(df_news)
 
 pricing_data, fundamental_data, tech_indicator, signals = st.tabs(
