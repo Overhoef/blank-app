@@ -372,14 +372,14 @@ with signals:
         x=data.index,
         y=data['MACD_Buy_Signal_price'],
         mode='markers',
-        label='koop',
+        name='koop',
         marker=dict(color='green', symbol='triangle-up', size=8),
     )
     signal_sell_trace = go.Scatter(
         x=data.index,
         y=data['MACD_Sell_Signal_price'],
         mode='markers',
-        label='verkoop',
+        name='verkoop',
         marker=dict(color='red', symbol='triangle-down', size=8),
     )
     fig.add_trace(price_trace, row=1, col=1)
