@@ -30,11 +30,11 @@ stock_options = {
     "JPM": "Jpmorgan Chase & Co.",
     "JNJ": "Johnson & Johnson",
     "SBUX": "Starbucks",
-    "BTC-USD":"Bitcoin Dollar",
-    "SOL-USD":"Solana Dollar",
-    "ETH-USD":"Ethereum Dollar",
-    "DOGE-USD":"Doge Coin",
-    "VOO":"sp500",
+    "BTC-USD": "Bitcoin Dollar",
+    "SOL-USD": "Solana Dollar",
+    "ETH-USD": "Ethereum Dollar",
+    "DOGE-USD": "Doge Coin",
+    "VOO": "sp500",
 }
 
 # Get the list of stock names from the dictionary values
@@ -46,7 +46,9 @@ ini_time_for_now = datetime.now()
 st.sidebar.header("Aandelen:")
 ticker = st.sidebar.selectbox("Ticker", stock_options)
 ticker2 = st.sidebar.text_input("Benchmark", value="VOO")
-start_date = st.sidebar.date_input("Begin datum", ini_time_for_now - timedelta(days=366))
+start_date = st.sidebar.date_input(
+    "Begin datum", ini_time_for_now - timedelta(days=366)
+)
 end_date = st.sidebar.date_input("Eind datum")
 
 
@@ -55,25 +57,32 @@ col1, col2 = st.columns(2)
 with col1:
     # Streamlit app setup
     st.subheader(f"Chart of {ticker}")
-   
 
-    #Hiermee maken we de Chart en de Pricing data. waarbij we de input van de boxes in de sidebar gebruiken.
+    # Hiermee maken we de Chart en de Pricing data. waarbij we de input van de boxes in de sidebar gebruiken.
     data = yf.download(ticker, start=start_date, end=end_date)
     data3 = yf.download(ticker2, start=start_date, end=end_date)
 
     # last 24h % change
     latest_date = data.index[-1]
     previous_date = data.index[-2]
-    latest_close = data.loc[latest_date, 'Close']
-    previous_close = data.loc[previous_date, 'Close']
+    latest_close = data.loc[latest_date, "Close"]
+    previous_close = data.loc[previous_date, "Close"]
     price_change = latest_close - previous_close
     percent_change = (price_change / previous_close) * 100
 
     # Price change 24h
     if price_change > 0:
-        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↑")
+        st.metric(
+            label=f"24h verandering in %",
+            value=f"${latest_close:.2f}",
+            delta=f"{percent_change:.2f}% ↑",
+        )
     else:
-        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↓")
+        st.metric(
+            label=f"24h verandering in %",
+            value=f"${latest_close:.2f}",
+            delta=f"{percent_change:.2f}% ↓",
+        )
 
     # Create a candlestick trace
     trace = go.Candlestick(
@@ -90,22 +99,30 @@ with col1:
     st.plotly_chart(fig)
 
 with col2:
-    #tweede titel voor benchmark
+    # tweede titel voor benchmark
     st.subheader(f"Benchmark {ticker2}")
 
-# last 24h % change
+    # last 24h % change
     latest_date = data3.index[-1]
     previous_date = data3.index[-2]
-    latest_close = data3.loc[latest_date, 'Close']
-    previous_close = data3.loc[previous_date, 'Close']
+    latest_close = data3.loc[latest_date, "Close"]
+    previous_close = data3.loc[previous_date, "Close"]
     price_change = latest_close - previous_close
     percent_change = (price_change / previous_close) * 100
 
     # Price change 24h
     if price_change > 0:
-        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↑")
+        st.metric(
+            label=f"24h verandering in %",
+            value=f"${latest_close:.2f}",
+            delta=f"{percent_change:.2f}% ↑",
+        )
     else:
-        st.metric(label=f"24h verandering in %", value=f"${latest_close:.2f}", delta=f"{percent_change:.2f}% ↓")
+        st.metric(
+            label=f"24h verandering in %",
+            value=f"${latest_close:.2f}",
+            delta=f"{percent_change:.2f}% ↓",
+        )
 
     trace2 = go.Candlestick(
         x=data3.index,  # X-axis data (timestamps)
@@ -138,9 +155,12 @@ with pricing_data:
     st.write("Risk Adj return is ", annual_return / (stdev * 100))
 
 from alpha_vantage.fundamentaldata import FundamentalData
+
 with fundamental_data:
-    st.header(f'Fundamentals of {ticker}')
-    st.write('We zitten helaas met een max van 25 requests per dag dus om dit online te gebruiken is niet handig. Wij presenteren het wel werkend. Fundamentals van bedrijven gebruik je meestal niet standaard maar het geeft een beter inzicht in de performance van een bedrijf.')
+    st.header(f"Fundamentals of {ticker}")
+    st.write(
+        "We zitten helaas met een max van 25 requests per dag dus om dit online te gebruiken is niet handig. Wij presenteren het wel werkend. Fundamentals van bedrijven gebruik je meestal niet standaard maar het geeft een beter inzicht in de performance van een bedrijf."
+    )
 #    st.write('Hiervoor hebben we de API gebruikt! We gebruiken de API van alpha vantage, door het op deze manier te doen houden we de requests lekker laag. gezien we met een max van 25 per dag zitten')
 #    key = '2925PDFSJVVI2IRD'
 #    fd = FundamentalData(key, output_format = 'pandas')
@@ -182,32 +202,36 @@ with tech_indicator:
     st.plotly_chart(figW_ind_new)
 
 with signals:
-    st.write('Harstikke leuk dit allemaal maar we hebben allemaal dezelfde vraag moet ik nou kopen of verkopen...')
-    st.write('Gebasseerd op de simple moving average met lengte 30 en 100 hebben we hier een grafiek')
-   
-    data['SMA 30'] = ta.sma(data['Close'],30)
-    data['SMA 100'] = ta.sma(data['Close'],100)
+    st.write(
+        "Harstikke leuk dit allemaal maar we hebben allemaal dezelfde vraag moet ik nou kopen of verkopen..."
+    )
+    st.write(
+        "Gebasseerd op de simple moving average met lengte 30 en 100 hebben we hier een grafiek"
+    )
 
-    #SMA BUY SELL
-    #Function for buy and sell signal
+    data["SMA 30"] = ta.sma(data["Close"], 30)
+    data["SMA 100"] = ta.sma(data["Close"], 100)
+
+    # SMA BUY SELL
+    # Function for buy and sell signal
     def buy_sell(data):
         signalBuy = []
         signalSell = []
-        position = False 
+        position = False
 
         for i in range(len(data)):
-            if data['SMA 30'][i] > data['SMA 100'][i]:
-                if position == False :
-                    signalBuy.append(data['Adj Close'][i])
+            if data["SMA 30"][i] > data["SMA 100"][i]:
+                if position == False:
+                    signalBuy.append(data["Adj Close"][i])
                     signalSell.append(np.nan)
                     position = True
                 else:
                     signalBuy.append(np.nan)
                     signalSell.append(np.nan)
-            elif data['SMA 30'][i] < data['SMA 100'][i]:
+            elif data["SMA 30"][i] < data["SMA 100"][i]:
                 if position == True:
                     signalBuy.append(np.nan)
-                    signalSell.append(data['Adj Close'][i])
+                    signalSell.append(data["Adj Close"][i])
                     position = False
                 else:
                     signalBuy.append(np.nan)
@@ -217,63 +241,73 @@ with signals:
                 signalSell.append(np.nan)
         return pd.Series([signalBuy, signalSell])
 
-    data['Buy_Signal_price'], data['Sell_Signal_price'] = buy_sell(data)
+    data["Buy_Signal_price"], data["Sell_Signal_price"] = buy_sell(data)
 
     # Create a new figure object
     fig = go.Figure()
 
     # Plot the Adj Close price
-    fig.add_trace(go.Scatter(
-        x=data.index,
-        y=data['Adj Close'],
-        name=ticker,
-        mode='lines',
-        line=dict(width=0.5, color='Grey', dash='solid')
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=data.index,
+            y=data["Adj Close"],
+            name=ticker,
+            mode="lines",
+            line=dict(width=0.5, color="Grey", dash="solid"),
+        )
+    )
 
     # Plot the SMA lines
-    fig.add_trace(go.Scatter(
-        x=data.index,
-        y=data['SMA 30'],
-        name='SMA30',
-        mode='lines',
-        line=dict(width=0.5, color='orange', dash='longdash')
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=data.index,
+            y=data["SMA 30"],
+            name="SMA30",
+            mode="lines",
+            line=dict(width=0.5, color="orange", dash="longdash"),
+        )
+    )
 
-    fig.add_trace(go.Scatter(
-        x=data.index,
-        y=data['SMA 100'],
-        name='SMA100',
-        mode='lines',
-        line=dict(width=0.5, color='blue', dash='longdash')
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=data.index,
+            y=data["SMA 100"],
+            name="SMA100",
+            mode="lines",
+            line=dict(width=0.5, color="blue", dash="longdash"),
+        )
+    )
 
     # Plot buy and sell signals as markers
-    fig.add_trace(go.Scatter(
-        x=data.index,
-        y=data['Buy_Signal_price'],
-        mode='markers',
-        name='Koop',
-        marker=dict(
-            symbol='triangle-up',
-            size=12,  # Adjust marker size as needed
-            color='green',
-            opacity=1
+    fig.add_trace(
+        go.Scatter(
+            x=data.index,
+            y=data["Buy_Signal_price"],
+            mode="markers",
+            name="Koop",
+            marker=dict(
+                symbol="triangle-up",
+                size=12,  # Adjust marker size as needed
+                color="green",
+                opacity=1,
+            ),
         )
-    ))
+    )
 
-    fig.add_trace(go.Scatter(
-        x=data.index,
-        y=data['Sell_Signal_price'],
-        mode='markers',
-        name='Verkoop',
-        marker=dict(
-            symbol='triangle-down',
-            size=12,  # Adjust marker size as needed
-            color='red',
-            opacity=1
+    fig.add_trace(
+        go.Scatter(
+            x=data.index,
+            y=data["Sell_Signal_price"],
+            mode="markers",
+            name="Verkoop",
+            marker=dict(
+                symbol="triangle-down",
+                size=12,  # Adjust marker size as needed
+                color="red",
+                opacity=1,
+            ),
         )
-    ))
+    )
 
     # Customize the layout
     fig.update_layout(
@@ -282,9 +316,9 @@ with signals:
         title_x=0.5,  # Center the title
         xaxis_title=f"{start_date} - {end_date}",
         xaxis_title_font_size=18,
-        yaxis_title='Close Price',
+        yaxis_title="Close Price",
         yaxis_title_font_size=18,
-        legend_title_text='Signals'  # Add legend title
+        legend_title_text="Signals",  # Add legend title
     )
 
     fig3 = fig
@@ -292,38 +326,42 @@ with signals:
     # Show the plot
     # st.write('Signalen gebasseerd op SMA30 en SMA100')
     st.plotly_chart(fig3)
-    
-    st.write('Dat is een leuk begin, maar met enkele missers moeten we dat beter kunnen, dit is nog niet helemaal betrouwbaar. Misschien moeten we ook iets aan het risico management doen. Dat kan met MACD signialen, met stoploss op 2,5% voor risico management. De Moving Average Convergence of Divergence (oftewel MACD) is het verschil tussen 2 exponentiële Moving Averages.')
-    #Strategy for signals
-    macd = ta.macd(data['Close'])
+
+    st.write(
+        "Dat is een leuk begin, maar met enkele missers moeten we dat beter kunnen, dit is nog niet helemaal betrouwbaar. Misschien moeten we ook iets aan het risico management doen. Dat kan met MACD signialen, met stoploss op 2,5% voor risico management. De Moving Average Convergence of Divergence (oftewel MACD) is het verschil tussen 2 exponentiële Moving Averages."
+    )
+    # Strategy for signals
+    macd = ta.macd(data["Close"])
 
     data = pd.concat([data, macd], axis=1).reindex(data.index)
 
     def MACD_Strategy(df, risk):
-        MACD_Buy=[]
-        MACD_Sell=[]
-        position=False
+        MACD_Buy = []
+        MACD_Sell = []
+        position = False
 
         for i in range(0, len(df)):
-            if df['MACD_12_26_9'][i] > df['MACDs_12_26_9'][i] :
+            if df["MACD_12_26_9"][i] > df["MACDs_12_26_9"][i]:
                 MACD_Sell.append(np.nan)
-                if position ==False:
-                    MACD_Buy.append(df['Adj Close'][i])
-                    position=True
+                if position == False:
+                    MACD_Buy.append(df["Adj Close"][i])
+                    position = True
                 else:
                     MACD_Buy.append(np.nan)
-            elif df['MACD_12_26_9'][i] < df['MACDs_12_26_9'][i] :
+            elif df["MACD_12_26_9"][i] < df["MACDs_12_26_9"][i]:
                 MACD_Buy.append(np.nan)
                 if position == True:
-                    MACD_Sell.append(df['Adj Close'][i])
-                    position=False
+                    MACD_Sell.append(df["Adj Close"][i])
+                    position = False
                 else:
                     MACD_Sell.append(np.nan)
-            elif position == True and df['Adj Close'][i] < MACD_Buy[-1] * (1 - risk):
+            elif position == True and df["Adj Close"][i] < MACD_Buy[-1] * (1 - risk):
                 MACD_Sell.append(df["Adj Close"][i])
                 MACD_Buy.append(np.nan)
                 position = False
-            elif position == True and df['Adj Close'][i] < df['Adj Close'][i - 1] * (1 - risk):
+            elif position == True and df["Adj Close"][i] < df["Adj Close"][i - 1] * (
+                1 - risk
+            ):
                 MACD_Sell.append(df["Adj Close"][i])
                 MACD_Buy.append(np.nan)
                 position = False
@@ -331,24 +369,23 @@ with signals:
                 MACD_Buy.append(np.nan)
                 MACD_Sell.append(np.nan)
 
-        data['MACD_Buy_Signal_price'] = MACD_Buy
-        data['MACD_Sell_Signal_price'] = MACD_Sell
+        data["MACD_Buy_Signal_price"] = MACD_Buy
+        data["MACD_Sell_Signal_price"] = MACD_Sell
 
     MACD_strategy = MACD_Strategy(data, 0.025)
 
     def MACD_color(data):
         MACD_color = []
         for i in range(0, len(data)):
-            if data['MACDh_12_26_9'][i] > data['MACDh_12_26_9'][i - 1]:
+            if data["MACDh_12_26_9"][i] > data["MACDh_12_26_9"][i - 1]:
                 MACD_color.append(True)
             else:
                 MACD_color.append(False)
         return MACD_color
 
-    data['positive'] = MACD_color(data)
+    data["positive"] = MACD_color(data)
 
-
-    colors = data.positive.map({True: 'green', False: 'red'})
+    colors = data.positive.map({True: "green", False: "red"})
 
     # Create subplots with appropriate dimensions
     fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05)
@@ -356,24 +393,24 @@ with signals:
     # Price plot on subplot 1
     price_trace = go.Scatter(
         x=data.index,
-        y=data['Adj Close'],
-        name='Close Price',
-        mode='lines',
-        line=dict(width=0.5, color='grey'),
+        y=data["Adj Close"],
+        name="Close Price",
+        mode="lines",
+        line=dict(width=0.5, color="grey"),
     )
     signal_buy_trace = go.Scatter(
         x=data.index,
-        y=data['MACD_Buy_Signal_price'],
-        mode='markers',
-        name='koop',
-        marker=dict(color='green', symbol='triangle-up', size=8),
+        y=data["MACD_Buy_Signal_price"],
+        mode="markers",
+        name="koop",
+        marker=dict(color="green", symbol="triangle-up", size=8),
     )
     signal_sell_trace = go.Scatter(
         x=data.index,
-        y=data['MACD_Sell_Signal_price'],
-        mode='markers',
-        name='verkoop',
-        marker=dict(color='red', symbol='triangle-down', size=8),
+        y=data["MACD_Sell_Signal_price"],
+        mode="markers",
+        name="verkoop",
+        marker=dict(color="red", symbol="triangle-down", size=8),
     )
     fig.add_trace(price_trace, row=1, col=1)
     fig.add_trace(signal_buy_trace, row=1, col=1)
@@ -391,26 +428,30 @@ with signals:
     # MACD plot on subplot 2
     macd_trace = go.Scatter(
         x=data.index,
-        y=data['MACD_12_26_9'],
-        name='MACD',
-        mode='lines',
-        line=dict(width=0.5, color='blue'),
+        y=data["MACD_12_26_9"],
+        name="MACD",
+        mode="lines",
+        line=dict(width=0.5, color="blue"),
     )
     macd_signal_trace = go.Scatter(
         x=data.index,
-        y=data['MACDs_12_26_9'],
-        name='Signal',
-        mode='lines',
-        line=dict(width=0.5, color='orange'),
+        y=data["MACDs_12_26_9"],
+        name="Signal",
+        mode="lines",
+        line=dict(width=0.5, color="orange"),
     )
     macd_volume_trace = go.Bar(
         x=data.index,
-        y=data['MACDh_12_26_9'],
-        name='Volume',
+        y=data["MACDh_12_26_9"],
+        name="Volume",
         marker=dict(color=colors, opacity=0.8),
         width=0.8,
     )
-    zero_line = go.Line(x=data.index, y=[0] * len(data), line=dict(color='black', width=0.5, dash='dash'))
+    zero_line = go.Line(
+        x=data.index,
+        y=[0] * len(data),
+        line=dict(color="black", width=0.5, dash="dash"),
+    )
     fig.add_trace(macd_trace, row=2, col=1)
     fig.add_trace(macd_signal_trace, row=2, col=1)
     fig.add_trace(macd_volume_trace, row=2, col=1)
