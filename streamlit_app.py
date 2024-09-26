@@ -135,16 +135,22 @@ with col2:
     fig2 = go.Figure(data=[trace2])  # Pass the list of traces
     st.plotly_chart(fig2)
 
-from stocknews import StockNews
-#een klein nieuws tabje in de sidebar
-st.sidebar.header(f'Nieuws over {ticker}')
-sn = StockNews(ticker, save_news=False)
-df_news = sn.read_rss()
-for i in range(3):
-    st.sidebar.write(f'Artikel {i+1}')
-    st.sidebar.write(df_news['published'][i])
-    st.sidebar.write(df_news['title'][i])
-    st.sidebar.write(df_news['summary'][i])
+from rssreader import RSSReader
+# een klein nieuws tabje in de sidebar
+st.sidebar.header("Nieuws")
+orr = RSSReader(ticker, 3) # 3 is hier het max aantal nieuwsberichten
+df_news = orr.read_rss()
+# items index in df_news:
+# 0 title
+# 1 link
+# 2 date
+# 3 summary
+
+# note: this is in markdown format:  https://markdownguide.offshoot.io/basic-syntax/
+
+for i in range(len(df_news)):
+    with st.sidebar:
+        st.markdown(f"\n#### {df_news.iloc[i, 0]} \n <small>{df_news.iloc[i, 2]}</small> \n\n <small>{df_news.iloc[i, 3][:255]} […read more]({df_news.iloc[i, 1]})</small> \n *** \n\n", unsafe_allow_html=True)
 
 pricing_data, fundamental_data, tech_indicator, signals = st.tabs(
     ["Prijs Data", "Fundamental Data", "Technische Analyses", "Signalen"]
