@@ -137,7 +137,7 @@ with col2:
 
 from stocknews import StockNews
 #een klein nieuws tabje in de sidebar
-st.sidebar.header('Nieuws')
+st.sidebar.header(f'Nieuws over {ticker}')
 sn = StockNews(ticker, save_news=False)
 df_news = sn.read_rss()
 for i in range(3):
