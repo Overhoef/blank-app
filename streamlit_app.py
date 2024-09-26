@@ -140,7 +140,7 @@ from stocknews import StockNews
 st.sidebar.header('Nieuws')
 sn = StockNews(ticker, save_news=False)
 df_news = sn.read_rss()
-for i in range(3)
+for i in range(3):
     st.sidebar.write(f'Artikel {i+1}')
     st.sidebar.write(df_news['published'][i])
     st.sidebar.write(df_news['title'][i])
