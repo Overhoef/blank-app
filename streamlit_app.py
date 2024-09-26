@@ -135,6 +135,13 @@ with col2:
     fig2 = go.Figure(data=[trace2])  # Pass the list of traces
     st.plotly_chart(fig2)
 
+from stocknews import StockNews
+#een klein nieuws tabje in de sidebar
+st.sidebar.header('Nieuws')
+sn = StockNews(ticker, save_news=False)
+df_news = sn.read_rss('AAPL')
+st.sidebar.write(df_news)
+
 pricing_data, fundamental_data, tech_indicator, signals = st.tabs(
     ["Prijs Data", "Fundamental Data", "Technische Analyses", "Signalen"]
 )
@@ -311,7 +318,7 @@ with signals:
 
     # Customize the layout
     fig.update_layout(
-        title=ticker[0] + " Price History with Buy and Sell Signals",
+        title=ticker + " Price History with Buy and Sell Signals",
         title_font_size=10,
         title_x=0.5,  # Center the title
         xaxis_title=f"{start_date} - {end_date}",
