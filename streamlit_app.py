@@ -174,25 +174,25 @@ with pricing_data:
 from alpha_vantage.fundamentaldata import FundamentalData
 
 with fundamental_data:
-    st.header(f"Fundamentals of {ticker}")
-    st.write('Hiervoor hebben we de API gebruikt! We gebruiken de API van alpha vantage, door het op deze manier te doen houden we de requests lekker laag. gezien we met een max van 25 per dag zitten')
-    key = '2925PDFSJVVI2IRD'
-    fd = FundamentalData(key, output_format = 'pandas')
-    st.subheader('Balance Sheet')
-    balance_sheet = fd.get_balance_sheet_annual(ticker)[0]
-    bs = balance_sheet.T[2:]
-    bs.columns = list(balance_sheet.T.iloc[0])
-    st.write(bs)
-    st.subheader('Income Statement')
-    income_statement = fd.get_income_statement_annual(ticker)[0]
-    is1 = income_statement.T[2:]
-    is1.collumns = list(income_statement.T.iloc[0])
-    st.write(is1)
-    st.subheader('Cash Flow Statement')
-    cash_flow = fd.get_cash_flow_annual(ticker)[0]
-    cf = cash_flow.T[2:]
-    cf.collumns = list(cash_flow.T.iloc[0])
-    st.write(cf)
+    # st.header(f"Fundamentals of {ticker}")
+    # st.write('Hiervoor hebben we de API gebruikt! We gebruiken de API van alpha vantage, door het op deze manier te doen houden we de requests lekker laag. gezien we met een max van 25 per dag zitten')
+    # key = '2925PDFSJVVI2IRD'
+    # fd = FundamentalData(key, output_format = 'pandas')
+    # st.subheader('Balance Sheet')
+    # balance_sheet = fd.get_balance_sheet_annual(ticker)[0]
+    # bs = balance_sheet.T[2:]
+    # bs.columns = list(balance_sheet.T.iloc[0])
+    # st.write(bs)
+    # st.subheader('Income Statement')
+    # income_statement = fd.get_income_statement_annual(ticker)[0]
+    # is1 = income_statement.T[2:]
+    # is1.collumns = list(income_statement.T.iloc[0])
+    # st.write(is1)
+    # st.subheader('Cash Flow Statement')
+    # cash_flow = fd.get_cash_flow_annual(ticker)[0]
+    # cf = cash_flow.T[2:]
+    # cf.collumns = list(cash_flow.T.iloc[0])
+    # st.write(cf)
 
 with tech_indicator:
     st.subheader(f"Technicals {ticker}")
