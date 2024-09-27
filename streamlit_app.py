@@ -174,7 +174,7 @@ with pricing_data:
 from alpha_vantage.fundamentaldata import FundamentalData
 
 with fundamental_data:
-    # st.header(f"Fundamentals of {ticker}")
+       st.header(f"Fundamentals of {ticker}")
     # st.write('Hiervoor hebben we de API gebruikt! We gebruiken de API van alpha vantage, door het op deze manier te doen houden we de requests lekker laag. gezien we met een max van 25 per dag zitten')
     # key = '2925PDFSJVVI2IRD'
     # fd = FundamentalData(key, output_format = 'pandas')
